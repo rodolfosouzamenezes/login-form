@@ -9,16 +9,15 @@ import { defaultValues, IFormLogin } from "./types";
 import { useState } from "react";
 
 const schema = yup.object({
-    email: yup
-      .string()
-      .email("E-mail inválido")
-      .required("Campo obrigatório"),
-    password: yup
-      .string()
-      .min(6, "No minimo 6 caracteres")
-      .required("Campo obrigatório"),
-  })
-  .required();
+  email: yup
+    .string()
+    .email("E-mail inválido")
+    .required("Campo obrigatório"),
+  password: yup
+    .string()
+    .min(6, "No minimo 6 caracteres")
+    .required("Campo obrigatório"),
+}).required();
 
 const Login = () => {
   const {
@@ -40,7 +39,7 @@ const Login = () => {
       () => {
         console.log(formData)
         setIsLoading(false)
-      }, 2000)
+      }, 1500)
   }
 
   return (
@@ -52,6 +51,7 @@ const Login = () => {
           <Input
             name="email"
             placeholder="Email"
+            autoFocus
             control={control}
             errorMessage={errors?.email?.message}
           />

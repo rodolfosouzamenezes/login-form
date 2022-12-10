@@ -16,7 +16,7 @@ const schema = yup.object({
     .required("Campo obrigatório"),
   password: yup
     .string()
-    .min(6, "No minimo 6 caracteres")
+    .min(6, "No mínimo 6 caracteres")
     .required("Campo obrigatório"),
 }).required();
 

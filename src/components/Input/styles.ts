@@ -1,5 +1,11 @@
 import styled from 'styled-components';
 
+export const Container = styled.div`
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 100%;
+`
 
 export const InputContainer = styled.div`
     width: 100%;

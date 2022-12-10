@@ -6,10 +6,13 @@ import * as yup from "yup";
 
 import { Container, LoginContainer, Column, Spacing, Title } from "./styles";
 import { defaultValues, IFormLogin } from "./types";
+import { useState } from "react";
 
-const schema = yup
-  .object({
-    email: yup.string().email("E-mail inválido").required("Campo obrigatório"),
+const schema = yup.object({
+    email: yup
+      .string()
+      .email("E-mail inválido")
+      .required("Campo obrigatório"),
     password: yup
       .string()
       .min(6, "No minimo 6 caracteres")
@@ -20,6 +23,7 @@ const schema = yup
 const Login = () => {
   const {
     control,
+    handleSubmit,
     formState: { errors, isValid },
   } = useForm<IFormLogin>({
     resolver: yupResolver(schema),
@@ -27,6 +31,17 @@ const Login = () => {
     defaultValues,
     reValidateMode: "onChange",
   });
+
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleLogin = (formData: IFormLogin) => {
+    setIsLoading(true)
+    setTimeout(
+      () => {
+        console.log(formData)
+        setIsLoading(false)
+      }, 2000)
+  }
 
   return (
     <Container>
@@ -49,7 +64,7 @@ const Login = () => {
             errorMessage={errors?.password?.message}
           />
           <Spacing />
-          <Button title="Entrar" />
+          <Button title="Entrar" onClick={handleSubmit(handleLogin)} isDisabled={!isValid} isLoading={isLoading} />
         </Column>
       </LoginContainer>
     </Container>

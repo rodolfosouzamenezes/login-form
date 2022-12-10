@@ -1,11 +1,20 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-
-export const ButtonContainer = styled.button`
+export const ButtonContainer = styled.button<{isLoading?: boolean;
+isDisabled?: boolean;}>`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 45px;
     width: 100%;
-    height: 42px;
     background-color: #81259D;
     color: #FFF;
+
+    ${({ isDisabled }) =>
+        isDisabled && css`
+            opacity: 0.5;
+        `
+    }
 
     border: 1px solid #81259D;
     border-radius: 21px;

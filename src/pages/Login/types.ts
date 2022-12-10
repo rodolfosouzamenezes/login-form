@@ -1,6 +1,7 @@
-export interface IFormLogin {
-    email: string;
-    password: string;
+import { UserProps } from "../../contexts/AuthContext";
+
+export interface IFormLogin extends UserProps {
+    
 }
 
 export const defaultValues: IFormLogin = {

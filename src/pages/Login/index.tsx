@@ -7,6 +7,7 @@ import * as yup from "yup";
 import { Container, LoginContainer, Column, Spacing, Title } from "./styles";
 import { defaultValues, IFormLogin } from "./types";
 import { useState } from "react";
+import { useAuth } from "../../hooks/useAuth";
 
 const schema = yup.object({
   email: yup
@@ -31,42 +32,52 @@ const Login = () => {
     reValidateMode: "onChange",
   });
 
-  const [isLoading, setIsLoading] = useState(false)
+  const { user, signIn, isUserLoading, logout } = useAuth();
 
   const handleLogin = (formData: IFormLogin) => {
-    setIsLoading(true)
-    setTimeout(
-      () => {
-        console.log(formData)
-        setIsLoading(false)
-      }, 1500)
+    signIn(formData)
   }
+
 
   return (
     <Container>
-      <LoginContainer>
-        <Column>
-          <Title>Login</Title>
-          <Spacing />
-          <Input
-            name="email"
-            placeholder="Email"
-            autoFocus
-            control={control}
-            errorMessage={errors?.email?.message}
-          />
-          <Spacing />
-          <Input
-            name="password"
-            type="password"
-            placeholder="Senha"
-            control={control}
-            errorMessage={errors?.password?.message}
-          />
-          <Spacing />
-          <Button title="Entrar" onClick={handleSubmit(handleLogin)} isDisabled={!isValid} isLoading={isLoading} />
-        </Column>
-      </LoginContainer>
+      {
+        user.email ?
+          <LoginContainer>
+
+            <Column>
+            <Title>Usuário Logado</Title>
+              <Spacing />
+              <p>Email: {user.email}</p>
+              <Spacing />
+              <Button title="Sair" onClick={logout} isLoading={isUserLoading} />
+            </Column>
+          </LoginContainer>
+          :
+          <LoginContainer>
+            <Column>
+              <Title>Login</Title>
+              <Spacing />
+              <Input
+                name="email"
+                placeholder="Email"
+                autoFocus
+                control={control}
+                errorMessage={errors?.email?.message}
+              />
+              <Spacing />
+              <Input
+                name="password"
+                type="password"
+                placeholder="Senha"
+                control={control}
+                errorMessage={errors?.password?.message}
+              />
+              <Spacing />
+              <Button title="Entrar" onClick={handleSubmit(handleLogin)} isDisabled={!isValid} isLoading={isUserLoading} />
+            </Column>
+          </LoginContainer>
+      }
     </Container>
   );
 };
